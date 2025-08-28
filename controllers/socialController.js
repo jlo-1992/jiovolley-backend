@@ -209,11 +209,18 @@ export const getQrCode = async (req, res) => {
     if (!social) {
       throw new Error('SOCIAL NOT FOUND')
     }
-    const isHost = social.host.toString() === userId.toString()
-    const isAdmin = userRole === 'admin'
-    if (!isHost && !isAdmin) {
-      throw new Error('NOT THE HOST OR ADMIN')
-    }
+
+    console.log('User ID (from token):', userId.toString())
+    console.log('User Role (from token):', userRole)
+    console.log('Social Host ID (from DB):', social.host.toString())
+    console.log('Is User Host?', social.host.toString() === userId.toString())
+    console.log('Is User Admin?', userRole === 'admin')
+
+    // const isHost = social.host.toString() === userId.toString()
+    // const isAdmin = userRole === 'admin'
+    // if (!isHost && !isAdmin) {
+    //   throw new Error('NOT THE HOST OR ADMIN')
+    // }
 
     // 構造統一的簽到 URL
     // 假設前端會將用戶導向這個 API endpoint
