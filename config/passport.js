@@ -29,7 +29,7 @@ passport.use(
     {
       channelID: process.env.LINE_CHANNEL_ID,
       channelSecret: process.env.LINE_CHANNEL_SECRET,
-      callbackURL: 'http://localhost:4000/user/auth/line/callback',
+      callbackURL: `${process.env.VITE_BACKEND_URL}/user/auth/line/callback`,
       scope: ['profile', 'openid', 'email'],
       botPrompt: 'aggresive',
     },
@@ -50,8 +50,8 @@ passport.use(
       } catch (error) {
         return done(error)
       }
-    },
-  ),
+    }
+  )
 )
 
 // 用 google 登入
@@ -62,7 +62,7 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: 'http://localhost:4000/user/auth/google/callback',
+      callbackURL: `${process.env.VITE_BACKEND_URL}/user/auth/google/callback`,
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
@@ -80,8 +80,8 @@ passport.use(
       } catch (error) {
         return done(error)
       }
-    },
-  ),
+    }
+  )
 )
 
 // passportLocal = 帳號密碼驗證策略，檢查有沒有指定的帳號密碼欄位
@@ -119,8 +119,8 @@ passport.use(
           return done(error)
         }
       }
-    },
-  ),
+    }
+  )
 )
 
 // 定義 Passport 如何解析和驗證一個 JWT Token。
@@ -163,7 +163,7 @@ passport.use(
 
         // 檢查使用者是否存在，並且 tokens 裡面有這個 token
         const user = await User.findOne({ _id: payload._id, tokens: token }).orFail(
-          new Error('USER NOT FOUND'),
+          new Error('USER NOT FOUND')
         )
         return done(null, { user, token })
       } catch (error) {
@@ -177,6 +177,6 @@ passport.use(
           return done(error)
         }
       }
-    },
-  ),
+    }
+  )
 )
