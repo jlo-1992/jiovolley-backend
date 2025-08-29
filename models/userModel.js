@@ -82,6 +82,7 @@ const userSchema = new Schema(
       type: String,
       enum: ['S 體保生', 'A 一般生校隊', 'B 一般生系隊', 'C 排球初階', 'D 排球初心者'],
     },
+    quote: { type: String },
     attendanceRate: {
       type: Number,
       default: 100,
