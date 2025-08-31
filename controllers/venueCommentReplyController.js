@@ -43,6 +43,20 @@ export const create = async (req, res) => {
       parentComment: req.params.parentCommentId,
     })
 
+    // 2. 更新主留言的 repliesCount
+    // 使用 $inc 運算子，原子性地將 repliesCount 欄位增加 1
+    const updatedComment = await VenueComment.findByIdAndUpdate(
+      req.params.parentCommentId,
+      { $inc: { repliesCount: 1 } },
+      { new: true }, // 回傳更新後的文件
+    )
+
+    // 3. 檢查更新是否成功
+    if (!updatedComment) {
+      // 雖然之前檢查過，但為保險起見，再次處理
+      throw new Error('FAILED TO UPDATE COMMENT')
+    }
+
     res.status(StatusCodes.CREATED).json({
       success: true,
       message: '回覆留言成功',
@@ -69,6 +83,11 @@ export const create = async (req, res) => {
       return res.status(StatusCodes.NOT_FOUND).json({
         success: false,
         message: '留言不存在',
+      })
+    } else if (error.message === 'FAILED TO UPDATE COMMENT') {
+      return res.status(StatusCodes.NOT_FOUND).json({
+        success: false,
+        message: '新增回覆成功，但更新留言計數失敗，請稍後再試。',
       })
     } else if (error.name === 'ValidationError') {
       // 這是 Mongoose 的驗證錯誤，處理Schema中定義的驗證規則
@@ -248,6 +267,8 @@ export const getReplies = async (req, res) => {
       parentComment: req.params.parentCommentId,
       isDeleted: false,
     })
+    console.log('venueCommentReplies', venueCommentReplies)
+
     res.status(StatusCodes.OK).json({
       success: true,
       message: '留言板回覆取得成功',
