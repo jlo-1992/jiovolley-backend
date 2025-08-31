@@ -22,7 +22,7 @@ const venueCommentReplySchema = new Schema(
       required: true,
       trim: true,
     },
-    like: {
+    likes: {
       type: Number,
       default: 0,
     },
@@ -32,6 +32,35 @@ const venueCommentReplySchema = new Schema(
     is_deleted: {
       type: Boolean,
       default: false,
+    },
+    isEdited: {
+      type: Boolean,
+      default: false,
+    },
+    isReported: {
+      type: Boolean,
+      default: false,
+    },
+    reports: [
+      {
+        reportedBy: {
+          type: Schema.Types.ObjectId,
+          ref: 'users',
+        },
+        reason: {
+          type: String,
+          enum: ['詐騙', '仇恨言論', '色情言論', '其他'],
+          required: true,
+        },
+        reportedAt: {
+          type: Date,
+          default: Date.now(),
+        },
+      },
+    ],
+    reportCount: {
+      type: Number,
+      default: 0,
     },
     is_hidden: Boolean,
   },

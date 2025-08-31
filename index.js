@@ -11,6 +11,7 @@ import venueRouter from './routes/venueRoutes.js'
 import venueCommentRouter from './routes/venueCommentRoutes.js'
 import socialRouter from './routes/socialRoutes.js'
 import socialParticipantRouter from './routes/socialParticipantRoutes.js'
+import venueCommentReplyRouter from './routes/venueCommentReplyRoutes.js'
 import './config/passport.js'
 import setupCronJobs from './cronJobs.js'
 import { linebotParser } from './config/linebot.js'
@@ -72,6 +73,8 @@ app.use('/venueComment', venueCommentRouter)
 app.use('/social', socialRouter)
 // 開頭是 /socialParticipant 的請求，都交由 socialParticipantRouter 處理
 app.use('/socialParticipant', socialParticipantRouter)
+// 開頭是 /venueCommentReplyRouter 的請求，都交由 venueCommentReplyRouter 處理
+app.use('/venueCommentReply', venueCommentReplyRouter)
 
 app.get('/', (req, res) => {
   res.status(StatusCodes.OK).json({
