@@ -1,12 +1,12 @@
 import { Router } from 'express'
 import * as product from '../controllers/productController.js'
 import * as auth from '../middlewares/authMiddleware.js'
-import upload from '../middlewares/uploadMiddleware.js'
+import { uploadImages } from '../middlewares/uploadMiddleware.js'
 
 const router = Router()
 
 // 只有管理員可以新增商品
-router.post('/', auth.checkToken, auth.admin, upload, product.create)
+router.post('/', auth.checkToken, auth.admin, uploadImages, product.create)
 
 // 取得所有商品資料（包含未上架商品），所以需要驗證是否為管理員
 router.get('/all', auth.checkToken, auth.admin, product.getAllAdmin)
@@ -18,6 +18,6 @@ router.get('/', product.getAvailable)
 router.get('/:id', product.getId)
 
 // 只有管理員可以更新商品資訊，包含下架商品，只能下架不能刪除商品
-router.patch('/:id', auth.checkToken, auth.admin, upload, product.update)
+router.patch('/:id', auth.checkToken, auth.admin, uploadImages, product.update)
 
 export default router

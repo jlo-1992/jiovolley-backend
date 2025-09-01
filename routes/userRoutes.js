@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import * as user from '../controllers/userController.js'
 import * as auth from '../middlewares/authMiddleware.js'
-import upload from '../middlewares/uploadMiddleware.js'
+import { uploadAvatar } from '../middlewares/uploadMiddleware.js'
 import passport from 'passport'
 
 const router = Router()
@@ -36,7 +36,7 @@ router.get(
 router.get('/profile', auth.checkToken, user.getProfile)
 
 // 更新會員資料
-router.patch('/profile', auth.checkToken, upload, user.updateProfile)
+router.patch('/profile', auth.checkToken, uploadAvatar, user.updateProfile)
 
 // 更新 token
 router.patch('/refresh', auth.checkToken, user.refresh)

@@ -265,9 +265,8 @@ export const getReplies = async (req, res) => {
     const venueCommentReplies = await VenueCommentReply.find({
       venue: req.params.venueId,
       parentComment: req.params.parentCommentId,
-      isDeleted: false,
+      is_deleted: false,
     })
-    console.log('venueCommentReplies', venueCommentReplies)
 
     res.status(StatusCodes.OK).json({
       success: true,

@@ -26,6 +26,12 @@ const venueCommentReplySchema = new Schema(
       type: Number,
       default: 0,
     },
+    likedBy: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'users',
+      },
+    ],
     image: {
       type: [String],
     },

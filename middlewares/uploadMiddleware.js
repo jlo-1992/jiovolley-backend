@@ -35,7 +35,7 @@ const upload = multer({
   },
 })
 
-export default (req, res, next) => {
+export const uploadImages = (req, res, next) => {
   upload.array('images', 5)(req, res, (error) => {
     // 處理上傳錯誤
     if (error) {
@@ -49,6 +49,20 @@ export default (req, res, next) => {
     // 繼續下一步
     console.log('上傳成功:', req.files)
     console.log('Multer 成功處理檔案:', req.files)
+    next()
+  })
+}
+
+export const uploadAvatar = (req, res, next) => {
+  upload.single('avatar')(req, res, (error) => {
+    if (error) {
+      console.error('上傳錯誤:', error)
+      return res.status(StatusCodes.BAD_REQUEST).json({
+        success: false,
+        message: '檔案上傳失敗，請確保檔案類型為 JPEG 或 PNG，且大小不超過 1MB',
+      })
+    }
+    console.log('單圖上傳成功:', req.file)
     next()
   })
 }

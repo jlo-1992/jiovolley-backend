@@ -10,9 +10,6 @@ export const create = async (req, res) => {
       throw new Error('ADDRESS EMPTY')
     }
 
-    // 透過地址取得經緯度
-    // const { lat, lng } = await getCoordinatesFromAddress(req.body.address)
-
     let imageUrls = []
 
     if (req.files && Array.isArray(req.files) && req.files.length > 0) {

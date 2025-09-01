@@ -1,13 +1,13 @@
 import { Router } from 'express'
 import * as venue from '../controllers/venueController.js'
 import * as auth from '../middlewares/authMiddleware.js'
-import upload from '../middlewares/uploadMiddleware.js'
+import { uploadImages } from '../middlewares/uploadMiddleware.js'
 import { getCoordinates } from '../controllers/geoController.js'
 
 const router = Router()
 
 // 新增球場，不須為管理員，只需要是會員，每個人都可以新增
-router.post('/', auth.checkToken, upload, venue.create)
+router.post('/', auth.checkToken, uploadImages, venue.create)
 
 // 取得所有球場資料（包含停止營運球場），所以需要驗證是否為管理員
 router.get('/all', auth.checkToken, auth.admin, venue.getAllAdmin)
@@ -22,7 +22,7 @@ router.get('/:id', venue.getId)
 
 // 更新球場資訊，不須為管理員，只需要是會員，每個人都可以更新
 // 只可停止營運，不能刪除
-router.patch('/:id', auth.checkToken, upload, venue.update)
+router.patch('/:id', auth.checkToken, uploadImages, venue.update)
 
 // 還沒寫
 

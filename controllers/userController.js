@@ -179,6 +179,13 @@ export const updateProfile = async (req, res) => {
       return res.status(400).json({ message: '球技程度為必填欄位。' })
     }
 
+    // 檢查是否有新上傳的圖片
+    // multer 上傳的單一檔案會存放在 req.file
+    if (req.file) {
+      // 有新圖片上傳，將新圖片的路徑存入 user.avatar 欄位
+      updateData.avatar = req.file.path
+    }
+
     // 確保下方欄位不會被前端修改
     delete updateData.cart
     delete updateData.tokens

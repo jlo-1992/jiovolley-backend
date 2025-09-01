@@ -1,15 +1,15 @@
 import { Router } from 'express'
 import * as venueComment from '../controllers/venueCommentController.js'
 import * as auth from '../middlewares/authMiddleware.js'
-import upload from '../middlewares/uploadMiddleware.js'
+import { uploadImages } from '../middlewares/uploadMiddleware.js'
 
 const router = Router()
 
 // 只有會員可以建立新留言
-router.post('/venue/:venueId', auth.checkToken, upload, venueComment.create)
+router.post('/venue/:venueId', auth.checkToken, uploadImages, venueComment.create)
 
 // 只有留言的人（會員）可以編輯留言
-router.patch('/:id', auth.checkToken, upload, venueComment.update)
+router.patch('/:id', auth.checkToken, uploadImages, venueComment.update)
 
 // 只有管理員可以刪除留言
 router.delete('/:id', auth.checkToken, auth.admin, venueComment.deleteComment)
